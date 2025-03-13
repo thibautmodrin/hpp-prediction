@@ -114,7 +114,7 @@ if __name__ == "__main__":
         steps=[
             ("preprocessor", preprocessor),
             # ("balancing", BorderlineSMOTE(random_state=42)),
-            # ('oversampler', SMOTETomek(random_state=42)),
+            ('oversampler', SMOTETomek(random_state=42)),
             # ('oversampler', SMOTEENN(random_state=42)),
             # ('oversampler', SMOTE(random_state=42)),
             # ('oversampler', BorderlineSMOTE(random_state=42)),
@@ -125,28 +125,28 @@ if __name__ == "__main__":
     param_grid = [
         {
             'classifier__solver': ['lbfgs'],
-            # 'classifier__penalty': ['l2', None],
-            # 'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
-            # 'classifier__class_weight': ['balanced', None],
-        #     'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
+            'classifier__penalty': ['l2', None],
+            'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
+            'classifier__class_weight': ['balanced', None],
+            'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
             # 'oversampler__k_neighbors': [3, 5, 7, 10]
         },
-        # {
-        #     'classifier__solver': ['liblinear'],
-        #     'classifier__penalty': ['l1', 'l2'],
-        #     'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
-        #     'classifier__class_weight': ['balanced', None],
-        #     'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
-        #     # 'oversampler__k_neighbors': [3, 5, 7, 10]
-        # },
-        # {
-        #     'classifier__solver': ['saga'],
-        #     'classifier__penalty': ['elasticnet', 'l1', 'l2', None],
-        #     'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
-        #     'classifier__class_weight': ['balanced', None],
-        #     'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
-        #     # 'oversampler__k_neighbors': [3, 5, 7, 10]
-        # }
+        {
+            'classifier__solver': ['liblinear'],
+            'classifier__penalty': ['l1', 'l2'],
+            'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
+            'classifier__class_weight': ['balanced', None],
+            'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
+            # 'oversampler__k_neighbors': [3, 5, 7, 10]
+        },
+        {
+            'classifier__solver': ['saga'],
+            'classifier__penalty': ['elasticnet', 'l1', 'l2', None],
+            'classifier__C': [0.001, 0.01, 0.1, 1.0, 10.0],
+            'classifier__class_weight': ['balanced', None],
+            'oversampler__sampling_strategy': [0.1, 0.25, 0.5, 0.75, 1.0],
+            # 'oversampler__k_neighbors': [3, 5, 7, 10]
+        }
     ]
     # Définition des hyperparamètres pour GridSearchCV
     # param_grid = {
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     experiment = mlflow.get_experiment_by_name("HPP_Prediction_LOG_REG_RECALL")
 
     client = mlflow.tracking.MlflowClient()
-    run = client.create_run(experiment.experiment_id, run_name="LR_TEST")  # Ajoute run_name ici
+    run = client.create_run(experiment.experiment_id, run_name="LR_SMOTETOMEK_penalty_gridsearch")  # Ajoute run_name ici
     mlflow.sklearn.autolog()
 
     with mlflow.start_run(run_id=run.info.run_id) as run:
