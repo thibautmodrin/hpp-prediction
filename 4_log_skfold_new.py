@@ -114,8 +114,8 @@ if __name__ == "__main__":
         steps=[
             ("preprocessor", preprocessor),
             # ("balancing", BorderlineSMOTE(random_state=42)),
-            ('oversampler', SMOTETomek(random_state=42)),
-            # ('oversampler', SMOTEENN(random_state=42)),
+            # ('oversampler', SMOTETomek(random_state=42)),
+            ('oversampler', SMOTEENN(random_state=42)),
             # ('oversampler', SMOTE(random_state=42)),
             # ('oversampler', BorderlineSMOTE(random_state=42)),
             ("classifier", LogisticRegression(random_state=42,max_iter=1000)),
@@ -194,7 +194,7 @@ if __name__ == "__main__":
         'f1': make_scorer(f1_score, zero_division=0),
 
         },
-        refit='recall',
+        refit='f1',
         cv=skf,
         n_jobs=-1,
         verbose=1,
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     experiment = mlflow.get_experiment_by_name("HPP_Prediction_LOG_REG_RECALL")
 
     client = mlflow.tracking.MlflowClient()
-    run = client.create_run(experiment.experiment_id, run_name="LR_SMOTETOMEK_penalty_gridsearch")  # Ajoute run_name ici
+    run = client.create_run(experiment.experiment_id, run_name="LR_SMOTEENN_penalty_gridsearch_f1")  # Ajoute run_name ici
     mlflow.sklearn.autolog()
 
     with mlflow.start_run(run_id=run.info.run_id) as run:
@@ -370,7 +370,7 @@ if __name__ == "__main__":
         ax.set_ylabel("Feature")
         ax.set_title("Feature Importance - LogisticRegression")
         ax.invert_yaxis()
-        plt.tight_layout()
+        plt.tight_layout()3
         mlflow.log_figure(fig, "7-feature_importance.png")
 
         # Rapport de classification
