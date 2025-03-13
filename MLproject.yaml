@@ -2,6 +2,7 @@ name: hpp-prediction
 
 docker_env:
   image: thibautmodrin21/hpp_prediction_env:latest
+  volumes: ["$(pwd):/home/user/app"]
   environment: [
     "MLFLOW_TRACKING_URI",
     "AWS_ACCESS_KEY_ID",
