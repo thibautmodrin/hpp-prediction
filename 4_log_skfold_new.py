@@ -370,7 +370,7 @@ if __name__ == "__main__":
         ax.set_ylabel("Feature")
         ax.set_title("Feature Importance - LogisticRegression")
         ax.invert_yaxis()
-        plt.tight_layout()3
+        plt.tight_layout()
         mlflow.log_figure(fig, "7-feature_importance.png")
 
         # Rapport de classification
