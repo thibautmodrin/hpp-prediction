@@ -114,8 +114,8 @@ if __name__ == "__main__":
         steps=[
             ("preprocessor", preprocessor),
             # ("balancing", BorderlineSMOTE(random_state=42)),
-            # ('oversampler', SMOTETomek(random_state=42)),
-            ('oversampler', SMOTEENN(random_state=42)),
+            ('oversampler', SMOTETomek(random_state=42)),
+            #('oversampler', SMOTEENN(random_state=42)),
             # ('oversampler', SMOTE(random_state=42)),
             # ('oversampler', BorderlineSMOTE(random_state=42)),
             ("classifier", LogisticRegression(random_state=42,max_iter=1000)),
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     experiment = mlflow.get_experiment_by_name("HPP_Prediction_LOG_REG_RECALL")
 
     client = mlflow.tracking.MlflowClient()
-    run = client.create_run(experiment.experiment_id, run_name="LR_SMOTEENN_penalty_gridsearch_f1")  # Ajoute run_name ici
+    run = client.create_run(experiment.experiment_id, run_name="LR_SMOTETOMEK_penalty_gridsearch_f1")  # Ajoute run_name ici
     mlflow.sklearn.autolog()
 
     with mlflow.start_run(run_id=run.info.run_id) as run:
