@@ -203,9 +203,13 @@ lr_grid = GridSearchCV(
 # Configuration MLflow
 mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "https://thibautmodrin-mlflow.hf.space"))
 mlflow.set_experiment("HPP_Prediction_LOG_REG_RECALL")
+experiment = mlflow.get_experiment_by_name("HPP_Prediction_LOG_REG_RECALL")
 
-with mlflow.start_run(run_name="LR_TEST") as run:
-    # mlflow.sklearn.autolog()
+client=mlflow.tracking.MlflowClient()
+run=client.create_run(experiment.experiment_id)
+
+with mlflow.start_run(run_id=run.info.run_id) as run:
+    mlflow.sklearn.autolog()
     # Création et enregistrement du dataset d'entraînement
     train_df = pd.concat([X_train, y_train], axis=1)
     train_dataset = mlflow.data.from_pandas(
